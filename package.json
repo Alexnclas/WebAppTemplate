@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5"
+  },
+  "scripts": {
+    "reset:dev": "docker compose down -v && docker compose up -d --build && docker compose exec backend node populateMinio.js && docker compose exec backend node populateUsers.js",
+    "reset:prod": "docker compose down -v && docker compose -f docker-compose.yml -f docker-compose.production.yml up -d --build && docker compose exec backend node populateMinio.js && docker compose exec backend node populateUsers.js"
+  }
+}

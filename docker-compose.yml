@@ -1,0 +1,47 @@
+services:
+  backend:
+    build: ./backend
+    container_name: mini-media-backend
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    depends_on:
+      - mongo
+      - minio
+    
+  mongo:
+    image: mongo
+    container_name: mini-media-database
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  minio:
+    image: minio/minio:latest
+    restart: always
+    container_name: mini-media-storage
+    env_file:
+      - .env
+    volumes:
+      - minio_data:/data
+      - ./minio-cors.json:/root/.minio/cors.json
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+  frontend:
+    build: ./frontend
+    container_name: mini-media-frontend
+    ports:
+      - "3000:80"
+    env_file:
+      - .env
+    depends_on:
+      - backend
+
+
+volumes:
+  mongo_data:
+  minio_data:

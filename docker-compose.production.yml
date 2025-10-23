@@ -1,0 +1,29 @@
+services:
+  backend:
+    env_file: .env.production
+    environment:
+      MINIO_ACCESS_KEY_FILE: /run/secrets/minio_access_key
+      MINIO_SECRET_KEY_FILE: /run/secrets/minio_secret_key
+      JWT_SECRET: /run/secrets/jwt_secret
+    secrets:
+      - minio_access_key
+      - minio_secret_key
+      - jwt_secret
+  minio:
+    env_file: .env.production
+    environment:
+      MINIO_ROOT_USER_FILE: /run/secrets/minio_access_key
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/minio_secret_key
+    secrets:
+          - minio_access_key
+          - minio_secret_key
+  frontend:
+    env_file: .env.production
+
+secrets:
+  minio_access_key: 
+    file: ./secrets/minio-access-key.txt
+  minio_secret_key: 
+    file: ./secrets/minio-secret-key.txt
+  jwt_secret: 
+    file: ./secrets/jwt-secret.txt
