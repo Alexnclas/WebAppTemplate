@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 const readSecret = require("../utils/readSecrets");
+const sendEmail = require("../utils/sendEmail")
 
 exports.login = async (req, res) => {
   console.log("POST /login called!")
@@ -136,5 +137,60 @@ exports.register = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+exports.forgotPassword = async (req, res) => {
+  console.log("POST /forgot-password called!");
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ message: "Email required" });
+
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ message: "User not found" });
+
+  const resetToken = jwt.sign(
+    { id: user._id },
+    readSecret(process.env.JWT_SECRET, process.env.JWT_DEV),
+    { expiresIn: "15m" }
+  );
+  user.resetPasswordToken = resetToken;
+  user.resetPasswordExpires = Date.now() + 15 * 60 * 1000; // 15 min
+  await user.save();
+
+  const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`; //TODO Change depending on prod
+  await sendEmail(user.email, "Reset password", `Click here: ${resetUrl}`);
+
+  res.json({ message: "Reset email sent" });
+};
+
+exports.resetPassword = async (req, res) => {
+  console.log("POST /reset-password called!");
+  const { token, newPassword } = req.body;
+  if (!token || !newPassword) return res.status(400).json({ message: "Invalid request" });
+
+  try {
+    const decoded = jwt.verify(token, readSecret(process.env.JWT_SECRET, process.env.JWT_DEV));
+
+    const user = await User.findOne({
+      _id: decoded.id,
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) return res.status(400).json({ message: "Token invalid or expired" });
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: "Token invalid or expired" });
   }
 };

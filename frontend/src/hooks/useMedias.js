@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchMedias } from './mediaService';
+import { fetchMedias } from '../services/mediaService';
 
 export function useMedias() {
     const [medias, setMedias] = useState([]);

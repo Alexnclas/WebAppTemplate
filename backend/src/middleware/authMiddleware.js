@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const readSecret = require("../utils/readSecrets")
 
 module.exports = function authMiddleware(req, res, next) {
   try {

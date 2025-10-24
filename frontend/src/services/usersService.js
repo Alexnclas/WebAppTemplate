@@ -42,11 +42,39 @@ export const getMe = async () => {
 
 export const createUser = async (email, password) => {
   try {
-    console.log("Sending data", email, password)
     const { data } = await api.post("/register", {
       email,
       password,
     });
+
+    return data; 
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const forgotPassword = async (email) => {
+  try {
+    const { data } = await api.post("/forgot-password", {
+      email,
+    });
+
+    return data; 
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    console.log("Front: reset password called", token, newPassword)
+    const { data } = await api.post("/reset-password", {
+      token,
+      newPassword
+    },
+    { withCredentials: true } );
 
     return data; 
   } catch (err) {

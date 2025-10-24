@@ -1,6 +1,6 @@
 import MediaList from "./MediaList";
 import MediaUpload from "./MediaUpload";
-import { useMedias } from "../services/mediaContext";
+import { useMedias } from "../hooks/useMedias";
 import { useTranslation } from "react-i18next";
 
 export default function MediaPage() {

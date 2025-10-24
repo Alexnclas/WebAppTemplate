@@ -78,6 +78,15 @@ export default function LoginPage() {
             Register
           </span>
         </p>
+        <p className="mt-4 text-center text-gray-500 text-sm">
+          Forgot password?{" "}
+          <span
+            className="text-blue-600 cursor-pointer hover:underline"
+            onClick={() => navigate("/forgot-password")}
+          >
+            Click here.
+          </span>
+        </p>
       </form>
     </div>
   );
