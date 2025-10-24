@@ -40,6 +40,21 @@ export const getMe = async () => {
   }
 };
 
+export const createUser = async (email, password) => {
+  try {
+    console.log("Sending data", email, password)
+    const { data } = await api.post("/register", {
+      email,
+      password,
+    });
+
+    return data; 
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 let onUnauthorizedLogout = null; // callback géré par le contexte
 
 export const setLogoutHandler = (fn) => {

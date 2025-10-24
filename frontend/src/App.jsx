@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from './components/Navbar';
 import { AuthProvider } from './hooks/useAuth';
+import RegisterPage from './components/RegisterPage';
 
 function App() {
   // Missing a Root "/" Route
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />}/>
+          <Route path="/register" element={<RegisterPage />}/>
           <Route
             path="/dashboard"
             element={

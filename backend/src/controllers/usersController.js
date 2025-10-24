@@ -88,3 +88,53 @@ exports.me = async (req, res) => {
     res.status(401).json({ message: "Invalid or expired token" });
   }
 };
+
+exports.register = async (req, res) => {
+  console.log("POST /register called!");
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use." });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      role: "viewer", // Will need a backoffice to be changed later on
+    });
+
+    await newUser.save();
+
+    const token = jwt.sign(
+      { id: newUser._id, role: newUser.role, email: newUser.email },
+      readSecret(process.env.JWT_SECRET, process.env.JWT_DEV),
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      // secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 2 * 60 * 60 * 1000, 
+    });
+
+    res.status(201).json({
+      message: "User registered successfully",
+      user: { email: newUser.email, role: newUser.role },
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { createUser } from "../services/usersService";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-   const { login, user } = useAuth();
+  const { user, login } = useAuth();
 
   useEffect(() => {
-  if (user) {
-      navigate("/dashboard");
-    }
+    if (user) navigate("/dashboard");
   }, [user]);
 
   const handleSubmit = async (e) => {
@@ -22,11 +21,14 @@ export default function LoginPage() {
     setSuccess("");
 
     try {
-      await login(email, password)
-      setSuccess("Login successful!");
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.response.data.message)
+        await createUser(email, password)
+        setSuccess("Registration successful! Logging in...");
+
+        await login(email, password);
+        navigate("/dashboard");
+        } catch (err) {
+            console.error(err);
+            setError(err.response.data.message || "Registration failed");
     }
   };
 
@@ -36,7 +38,7 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
 
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
         {success && <p className="text-green-500 text-sm mb-3">{success}</p>}
@@ -65,17 +67,18 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
         >
-          Login
+          Register
         </button>
+
         <p className="mt-4 text-center text-gray-500 text-sm">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <span
             className="text-blue-600 cursor-pointer hover:underline"
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/login")}
           >
-            Register
+            Login
           </span>
         </p>
       </form>
