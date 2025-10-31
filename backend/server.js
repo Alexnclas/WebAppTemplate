@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const mediaRouter = require('./src/routes/media');
 const usersRouter = require('./src/routes/users');
 
-connectDB();
+// connectDB();
 
 const app = express();
 

@@ -4,9 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(() => {
   return {
+    base: '/WebAppTemplate/',
     build: {
       outDir: 'build',
-      base: '/WebAppTemplate/',
     },
     plugins: [react(), 
         tailwindcss(),

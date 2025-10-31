@@ -22,4 +22,7 @@ Create secrets using createSecrets.sh
 - ./createSecrets.sh
 #########
 
+
+// maybe not needed https://github.com/orgs/community/discussions/36010
+
 npm run reset:dev
