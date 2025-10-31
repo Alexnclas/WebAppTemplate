@@ -14,7 +14,7 @@ export default function ExternalAPIPage() {
     useEffect(() => {
     const fetchItems = async () => {
         const res = await getExternalAPI(currentPage);
-        console.log("external call res", res)
+        console.log("external call reesfs", res)
         setItem(res);
     };
     fetchItems();
