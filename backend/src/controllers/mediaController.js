@@ -1,4 +1,3 @@
-// baceknd/src/controllers/mediaController.js
 const Media = require("../models/Media");
 const aws = require("aws-sdk");
 const readSecret = require("../utils/readSecrets");

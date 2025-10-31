@@ -1,7 +1,7 @@
 services:
   backend:
     build: ./backend
-    container_name: mini-media-backend
+    container_name: webapptemplate-backend
     env_file:
       - .env
     ports:
@@ -12,7 +12,7 @@ services:
     
   mongo:
     image: mongo
-    container_name: mini-media-database
+    container_name: webapptemplate-database
     restart: always
     ports:
       - "27017:27017"
@@ -21,7 +21,7 @@ services:
   minio:
     image: minio/minio:latest
     restart: always
-    container_name: mini-media-storage
+    container_name: webapptemplate-storage
     env_file:
       - .env
     volumes:
@@ -33,7 +33,7 @@ services:
     command: server /data --console-address ":9001"
   frontend:
     build: ./frontend
-    container_name: mini-media-frontend
+    container_name: webapptemplate-frontend
     ports:
       - "3000:80"
     env_file:
