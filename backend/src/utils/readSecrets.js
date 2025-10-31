@@ -12,6 +12,7 @@ const fs = require("fs");
  * @returns {string}           The secret value
  */
 function readSecret(filename, envVarName, fallback) {
+  console.log("reading secret for:", filename, envVarName, fallback);
   // Env var
   if (process.env[envVarName]) {
     return process.env[envVarName];
