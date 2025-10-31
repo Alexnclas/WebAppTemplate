@@ -9,7 +9,7 @@ module.exports = function authMiddleware(req, res, next) {
       return res.status(401).json({ message: "Missing token" });
     }
 
-    const decoded = jwt.verify(token, readSecret(process.env.JWT_SECRET, process.env.JWT_DEV));
+    const decoded = jwt.verify(token, readSecret("jwt_secret", process.env.JWT_DEV));
     
     req.user = decoded;
 

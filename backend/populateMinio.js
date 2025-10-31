@@ -16,8 +16,8 @@ const testSeeds = [
 
 const s3 = new aws.S3({
   endpoint: process.env.MINIO_ENDPOINT,
-  accessKeyId: readSecret(process.env.MINIO_ACCESS_KEY_FILE, process.env.MINIO_ACCESS_KEY),
-  secretAccessKey: readSecret(process.env.MINIO_SECRET_KEY_FILE, process.env.MINIO_SECRET_KEY),
+  accessKeyId: readSecret("minio_access_key", process.env.MINIO_ACCESS_KEY),
+  secretAccessKey: readSecret("minio_secret_key", process.env.MINIO_SECRET_KEY),
   s3ForcePathStyle: true,
 }) 
 

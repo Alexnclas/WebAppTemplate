@@ -28,7 +28,7 @@ exports.login = async (req, res) => {
         role: user.role,
         email: user.email,
       },
-      readSecret(process.env.JWT_SECRET, process.env.JWT_DEV),
+      readSecret("jwt_secret", process.env.JWT_DEV),
       // { expiresIn: "1h" }
       { expiresIn: "15s" }
     );
@@ -76,7 +76,7 @@ exports.me = async (req, res) => {
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
-    const decoded = jwt.verify(token, readSecret(process.env.JWT_SECRET, process.env.JWT_DEV));
+    const decoded = jwt.verify(token, readSecret("jwt_secret", process.env.JWT_DEV));
     
     const user = await User.findById(decoded.id).select("email");
     if (!user) {
@@ -117,7 +117,7 @@ exports.register = async (req, res) => {
 
     const token = jwt.sign(
       { id: newUser._id, role: newUser.role, email: newUser.email },
-      readSecret(process.env.JWT_SECRET, process.env.JWT_DEV),
+      readSecret("jwt_secret", process.env.JWT_DEV),
       { expiresIn: "1h" }
     );
 
@@ -151,7 +151,7 @@ exports.forgotPassword = async (req, res) => {
 
   const resetToken = jwt.sign(
     { id: user._id },
-    readSecret(process.env.JWT_SECRET, process.env.JWT_DEV),
+    readSecret("jwt_secret", process.env.JWT_DEV),
     { expiresIn: "15m" }
   );
   user.resetPasswordToken = resetToken;
@@ -170,7 +170,7 @@ exports.resetPassword = async (req, res) => {
   if (!token || !newPassword) return res.status(400).json({ message: "Invalid request" });
 
   try {
-    const decoded = jwt.verify(token, readSecret(process.env.JWT_SECRET, process.env.JWT_DEV));
+    const decoded = jwt.verify(token, readSecret("jwt_secret", process.env.JWT_DEV));
 
     const user = await User.findOne({
       _id: decoded.id,
