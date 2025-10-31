@@ -5,12 +5,8 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
-    location / {
-        try_files $uri /index.html;
-    }
-
     location /api/ {
-        rewrite ^/api/(.*)$ /$1 break;    # strip /api prefix
+        rewrite ^/api/(.*) /$1 break;
         proxy_pass ${BACKEND_URL}/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -18,4 +14,7 @@ server {
         proxy_set_header Connection "";
     }
 
+    location / {
+        try_files $uri /index.html;
+    }
 }
