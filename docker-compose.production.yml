@@ -2,11 +2,11 @@ services:
   backend:
     env_file: .env.production
     environment:
-      MINIO_ACCESS_KEY_FILE: /etc/secrets/minio_access_key.txt
-      MINIO_SECRET_KEY_FILE: /etc/secrets/minio_secret_key.txt
-      MONGODB_ACCESS_KEY_FILE: /etc/secrets/mongodb_access_key.txt
-      MONGODB_SECRET_KEY_FILE: /etc/secrets/mongodb_secret_key.txt
-      JWT_SECRET: /etc/secrets/jwt_secret
+      MINIO_ACCESS_KEY_FILE: /run/secrets/minio_access_key
+      MINIO_SECRET_KEY_FILE: /run/secrets/minio_secret_key
+      MONGODB_ACCESS_KEY_FILE: /run/secrets/mongodb_access_key
+      MONGODB_SECRET_KEY_FILE: /run/secrets/mongodb_secret_key
+      JWT_SECRET: /run/secrets/jwt_secret
     secrets:
       - minio_access_key
       - minio_secret_key
@@ -17,8 +17,8 @@ services:
   minio:
     env_file: .env.production
     environment:
-      MINIO_ROOT_USER_FILE: /etc/secrets/minio_access_key.txt
-      MINIO_ROOT_PASSWORD_FILE: /etc/secrets/minio_secret_key.txt
+      MINIO_ROOT_USER_FILE: /run/secrets/minio_access_key
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/minio_secret_key
     secrets:
           - minio_access_key
           - minio_secret_key
@@ -27,12 +27,12 @@ services:
 
 secrets:
   minio_access_key: 
-    file: ./secrets/minio-access-key.txt
+    file: ./secrets/minio_access_key.txt
   minio_secret_key: 
-    file: ./secrets/minio-secret-key.txt
+    file: ./secrets/minio_secret_key.txt
   mongodb_access_key: 
-    file: ./secrets/mongodb-access-key.txt
+    file: ./secrets/mongodb_access_key.txt
   mongodb_secret_key: 
-    file: ./secrets/mongodb-secret-key.txt
+    file: ./secrets/mongodb_secret_key.txt
   jwt_secret: 
-    file: ./secrets/jwt-secret.txt
+    file: ./secrets/jwt_secret.txt

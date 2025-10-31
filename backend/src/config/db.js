@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const readSecret = require("../utils/readSecrets");
 
-const dbUser = readSecret(process.env.MONGODB_ACCESS_KEY_FILE, "db_user");
-const dbUserPassword = readSecret(process.env.MONGODB_SECRET_KEY_FILE, "password");
+const dbUser = readSecret("mongodb_access_key", "db_user");
+const dbUserPassword = readSecret("mongodb_secret_key", "password");
 const uriSuffix = process.env.MONGODB_URI_SUFFIX;
 const productionUri = `mongodb+srv://${dbUser}:${dbUserPassword}@${uriSuffix}`;
 const devUri = process.env.MONGODB_DEV_URI;
