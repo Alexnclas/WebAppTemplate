@@ -3,15 +3,18 @@ const readSecret = require("../utils/readSecrets");
 
 const dbUser = readSecret(process.env.MONGODB_ACCESS_KEY_FILE, "db_user");
 const dbUserPassword = readSecret(process.env.MONGODB_SECRET_KEY_FILE, "password");
-const uri = `mongodb+srv://${dbUser}:${dbUserPassword}@webapptemplatecluster0.3qandzz.mongodb.net/?appName=WebAppTemplateCluster0`;
-//TODO CHANGE Last part to .env constant
+const uriSuffix = process.env.MONGODB_URI_SUFFIX;
+const productionUri = `mongodb+srv://${dbUser}:${dbUserPassword}@${uriSuffix}`;
+const devUri = process.env.MONGODB_DEV_URI;
+
 const connectDB = async () =>  {
   try {
-    // await mongoose.connect(process.env.MONGO_URI) // Dev
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }) // Production
+    if(process.env.NODE_ENV === "production"){
+      await mongoose.connect(productionUri)
+    }
+    else {
+      await mongoose.connect(devUri) 
+    }
     console.log("MongoDB connected")
   }
   catch(err) {

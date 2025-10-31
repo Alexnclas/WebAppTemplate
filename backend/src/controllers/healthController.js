@@ -1,5 +1,4 @@
 exports.health = async (req, res) => {
-  console.log("GET /health called!")
   try {
     // const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
     res.status(200).json({

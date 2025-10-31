@@ -7,7 +7,7 @@ const mediaRouter = require('./src/routes/media');
 const usersRouter = require('./src/routes/users');
 const healthRouter = require('./src/routes/health');
 
-// connectDB();
+connectDB();
 
 const app = express();
 

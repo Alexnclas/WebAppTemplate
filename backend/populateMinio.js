@@ -4,6 +4,7 @@ const fs = require("fs");
 const Media = require("./src/models/Media");
 const aws = require("aws-sdk");
 const readSecret = require("./src/utils/readSecrets");
+const connectDB = require("./src/config/db");
 
 const bucketName = "media";
 const testFileDirectory = "testAssets";
@@ -20,9 +21,10 @@ const s3 = new aws.S3({
   s3ForcePathStyle: true,
 }) 
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error(err));
+// mongoose.connect(process.env.MONGO_URI)
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch(err => console.error(err));
+connectDB();
 
 async function uploadAndSave(testSeed) {
   const filename = testSeed.filename;

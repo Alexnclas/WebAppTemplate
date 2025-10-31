@@ -3,13 +3,12 @@ const User = require("./src/models/User");
 const path = require("path");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
+const connectDB = require("./src/config/db");
 
 const filename = "testUsers.json";
 const testFileDirectory = "testAssets";
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error(err));
+connectDB();
 
 async function main() {
     try {

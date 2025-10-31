@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(() => {
   return {
-    base: '/WebAppTemplate/',
+    base: process.env.VITE_BASE_URL,
     build: {
       outDir: 'build',
     },
