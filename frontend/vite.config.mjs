@@ -6,6 +6,7 @@ export default defineConfig(() => {
   return {
     build: {
       outDir: 'build',
+      base: '/WebAppTemplate/',
     },
     plugins: [react(), 
         tailwindcss(),

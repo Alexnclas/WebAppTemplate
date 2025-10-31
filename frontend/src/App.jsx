@@ -8,6 +8,7 @@ import { AuthProvider } from './hooks/useAuth';
 import RegisterPage from './components/RegisterPage';
 import ForgotPasswordPage from './components/ForgotPassword';
 import ResetPasswordPage from './components/ResetPassword';
+import ExternalAPIPage from './components/ExternalAPIPage';
 
 function App() {
   // Missing a Root "/" Route
@@ -27,6 +28,7 @@ function App() {
                 <>
                   <Navbar/>
                   <MediaPage/>
+                  <ExternalAPIPage/>
                 </>
               </ProtectedRoute>
             }
