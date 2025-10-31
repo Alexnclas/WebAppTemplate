@@ -9,3 +9,4 @@ function readSecret(path, fallback) {
 }
 
 module.exports = readSecret;
+
