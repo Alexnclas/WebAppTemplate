@@ -11,7 +11,7 @@ const fs = require("fs");
  * @param {string} fallback    The fallback string if neither exists
  * @returns {string}           The secret value
  */
-function readSecret(filename, envVarName, fallback = "") {
+function readSecret(filename, envVarName, fallback) {
   // Env var
   if (process.env[envVarName]) {
     return process.env[envVarName];
