@@ -8,7 +8,6 @@ const productionUri = `mongodb+srv://${dbUser}:${dbUserPassword}@${uriSuffix}`;
 const devUri = process.env.MONGODB_DEV_URI;
 
 const connectDB = async () =>  {
-  console.log("Production uri DELETE THIS", productionUri)
   try {
     if(process.env.NODE_ENV === "production"){
       await mongoose.connect(productionUri)

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = "api/medias";
+const BASE_URL = "/api/medias";
 
 const api = axios.create({
   baseURL: BASE_URL
